@@ -5,7 +5,6 @@ Created on Thu Jul  6 13:34:08 2023
 
 Class definitions and helper functions for a BaD SIRS model.
 
-TODO: Fix code to match document.  I have changed notation on I^*
 @author: Matt Ryan
 """
 
@@ -16,8 +15,8 @@ from scipy.integrate import quad, solve_ivp
 from scipy.optimize import fsolve
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.colors as clrs
-import matplotlib.ticker as tkr
+# import matplotlib.colors as clrs
+# import matplotlib.ticker as tkr
 import json
 from enum import IntEnum
 
@@ -285,8 +284,6 @@ class bad(object):
         :param starting_R: the total number of starting recovereds
         :return: the initial population by patch and disease status
         """
-        # todo: generalise
-        # for now just assuming all infectious start in with no behaviour fixme: too many simplifying assumptions currently
         starting_population = np.zeros(11)
 
         if starting_B is None:
@@ -449,12 +446,10 @@ class bad(object):
             omega transition value at equilibrium (w1 * B + w2 * I + w3)
         """
 
-        # fixme: Is this bound valid?
-        # assert not (T > nu/(g + nu)), "invalid choice of I"
-
+        # handle infeasible values of T
         if T < 1e-8:
             T = 0
-        if T > 1:  # fixme: shouldn't need this hack -- if remove end up in print error line with no feasible N_opts
+        if T > 1:
             T = 1
         if np.isnan(T):
             T = 0
@@ -561,38 +556,6 @@ class bad(object):
         """
         return ((1-self.pA) * self.pT * self.sigma * Eb)/self.gamma
 
-    # def solve_Eb(eb, args):
-
-    #     params = args[0]
-    #     I = args[1]
-
-    #     S, E, A, _ = get_SEAR(I, params)
-
-    #     T = get_T(eb, params)
-
-    #     B, w, a = get_B_a_w(T, params)
-
-    #     lam = params["transmission"] * (I + params["qA"]*A + params["qT"] * T)
-
-    #     qB = params["qB"]
-    #     s = 1/params["latent_period"]
-
-    #     numer = qB*lam*S - (qB*(w + s) - w) * E
-    #     denom = (1-qB) * (a + w + s)
-
-    #     Eb = numer/denom
-
-    #     res = eb - Eb
-    #     return res
-
-    # def get_Eb(I, E, params):
-
-    #     eb = E/2
-    #     ans = fsolve(solve_Eb, x0=[eb], args=([params, I]))
-
-    #     Eb = ans[0]
-    #     return Eb
-
     def get_ss_Ab(self, Eb, A, a, w):
         """
         Calculate the steady state of Ab when steady states for A and Eb are known.
@@ -642,7 +605,7 @@ class bad(object):
         """
 
         numer = (1-self.pA) * (1-self.pT) * self.sigma * Eb + w * \
-            (O-T)  # todo: double check as Matt had a bonus - w*T here
+            (O-T)
         denom = self.gamma + a + w
 
         return numer/denom
@@ -747,10 +710,6 @@ class bad(object):
         T = x[0]
         O = x[1]
 
-        # # a hack to enforce biological feasible ranges -- noting `fsolve` does *not* like this hack
-        # if T>1 or T<0 or I>1 or I<0 or (T+I)>1:
-        #     return [0.9, 0.9]
-
         _, a, w = self.get_ss_B_a_w(T=T)
 
         ss_n = self.get_steady_states(O=O, T=T)
@@ -803,7 +762,7 @@ class bad(object):
         while stop_while_flag:
             res = fsolve(self.solve_ss_T_O,
                          x0=[init_t, init_o],
-                         xtol=1e-8)  # fixme: Roslyn -- plan to re calculate fsolve if getting outside feasible space
+                         xtol=1e-8)
 
             # Is solutions are too small then set to 0
             if (res[0] < self.init_cond[Compartments.In]):
@@ -1173,7 +1132,7 @@ class bad(object):
 
 def load_param_defaults(filename="model_parameters.json"):
     """
-    Written by: Rosyln Hickson
+    Written by: Roslyn Hickson
     Pull out default values from a file in json format.
     :param filename: json file containing default parameter values, which can be overridden by user specified values
     :return: loaded expected parameter values
@@ -1448,7 +1407,6 @@ if __name__ == "__main__":
 
 
 # %% Bifurcation diagram
- # fixme: Roslyn
     R0_min = 0
     R0_max = 10
     R0_step = 0.1
@@ -1500,47 +1458,6 @@ if __name__ == "__main__":
         plt.close()
     else:
         plt.show()
-    # plt.figure()
-    # plt.title("Exposed and infectious")
-    # plt.plot(R0_range,
-    #          res[:, Compartments.En],
-    #          color="orange",
-    #          label="$E_N$")
-    # plt.plot(R0_range,
-    #          res[:, Compartments.Eb],
-    #          color="darkorange",
-    #          label="$E_B$")
-    # plt.plot(R0_range,
-    #          res[:, Compartments.An],
-    #          color="peru",
-    #          label="$A_N$")
-    # plt.plot(R0_range,
-    #          res[:, Compartments.Ab],
-    #          color="peachpuff",
-    #          label="$A_B$")
-    # plt.plot(R0_range,
-    #          res[:, Compartments.In],
-    #          color="red",
-    #          label="$I_N$")
-    # plt.plot(R0_range,
-    #          res[:, Compartments.Ib],
-    #          color="darkred",
-    #          label="$I_B$")
-    # plt.plot(R0_range,
-    #          res[:, Compartments.T],
-    #          color="lightcoral",
-    #          label="$T$")
-
-    # plt.ylabel("Steady state value")
-    # plt.xlabel("'Behaviour free' reproduction number")
-    # plt.legend(loc=[1.05, 0.])
-    # if flag_save_figs:
-    #     plt.savefig("../img/ss_by_r0_infectious.png",
-    #                 dpi=dpi,
-    #                 bbox_inches="tight")
-    #     plt.close()
-    # else:
-    #     plt.show()
 
 # %% Testing accuracy
     pT_min = 0
@@ -1586,164 +1503,3 @@ if __name__ == "__main__":
     plt.ylabel("Infection")
     plt.title("I vs B for differnt p_T")
     plt.show()
-
-
-# # %% Check  Bstar
-
-#     print("Checking B star")
-#     T = M1.results[-1, Compartments.T]
-
-#     B, a, w = get_B_a_w(T, cust_params)
-
-#     print(f"SS Estimate: {B}")
-#     print(f"numeric estimate: {M1.get_B()[-1]}")
-
-#     plt.figure()
-#     plt.title("Bstar estimate")
-#     plt.plot(M1.t_range, M1.get_B(), label="Behaviour")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [B, B], ":k")
-#     plt.legend()
-#     plt.show()
-
-# # %% Check S, E, A, R
-
-#     I = M1.get_I()[-1]
-
-#     S, E, A, R = get_SEAR(I, cust_params)
-
-#     print("Checking S star")
-
-#     print(f"SS Estimate: {S}")
-#     print(f"numeric estimate: {M1.get_S()[-1]}")
-
-#     plt.figure()
-#     plt.title("Sstar estimate")
-#     plt.plot(M1.t_range, M1.get_S(), label="Susceptibles")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [S, S], ":k")
-#     plt.legend()
-#     plt.show()
-
-#     print("Checking E star")
-
-#     print(f"SS Estimate: {E}")
-#     print(f"numeric estimate: {M1.get_E()[-1]}")
-
-#     plt.figure()
-#     plt.title("Estar estimate")
-#     plt.plot(M1.t_range, M1.get_E(), label="Exposed")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [E, E], ":k")
-#     plt.legend()
-#     plt.show()
-
-#     print("Checking A star")
-
-#     print(f"SS Estimate: {A}")
-#     print(f"numeric estimate: {M1.get_A()[-1]}")
-
-#     plt.figure()
-#     plt.title("Astar estimate")
-#     plt.plot(M1.t_range, M1.get_A(), label="Asymptomatic")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [A, A], ":k")
-#     plt.legend()
-#     plt.show()
-
-#     print("Checking R star")
-
-#     print(f"SS Estimate: {R}")
-#     print(f"numeric estimate: {M1.get_R()[-1]}")
-
-#     plt.figure()
-#     plt.title("Rstar estimate")
-#     plt.plot(M1.t_range, M1.get_R(), label="Recovered")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [R, R], ":k")
-#     plt.legend()
-#     plt.show()
-
-# # %% Check Eb
-#     lam = cust_params["transmission"] * \
-#         ((I-T) + cust_params["qA"]*A + cust_params["qT"] * T)
-
-#     Eb = get_Eb(S, E, a, w, lam, cust_params)
-
-#     print("Checking Eb star")
-
-#     print(f"SS Estimate: {Eb}")
-#     print(f"numeric estimate: {M1.results[-1, Compartments.Eb]}")
-
-#     plt.figure()
-#     plt.title("EBstar estimate")
-#     plt.plot(M1.t_range, M1.results[:, Compartments.Eb], label="Eb")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [Eb, Eb], ":k")
-#     plt.legend()
-#     plt.show()
-
-# # %% Check Ab
-
-#     # Eb = M1.results[-1, Compartments.Eb]
-
-#     Ab = get_Ab(Eb, A, a, w, cust_params)
-
-#     print("Checking Ab star")
-
-#     print(f"SS Estimate: {Ab}")
-#     print(f"numeric estimate: {M1.results[-1, Compartments.Ab]}")
-
-#     plt.figure()
-#     plt.title("ABstar estimate")
-#     plt.plot(M1.t_range, M1.results[:, Compartments.Ab], label="Ab")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [Ab, Ab], ":k")
-#     plt.legend()
-#     plt.show()
-
-# # %% Check Ib
-
-#     Ib = get_Ib(I, T, Eb, a, w, cust_params)
-
-#     print("Checking Ib star")
-
-#     print(f"SS Estimate: {Ib}")
-#     print(f"numeric estimate: {M1.results[-1, Compartments.Ib]}")
-
-#     plt.figure()
-#     plt.title("IBstar estimate")
-#     plt.plot(M1.t_range, M1.results[:, Compartments.Ib], label="Ib")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [Ib, Ib], ":k")
-#     plt.legend()
-#     plt.show()
-
-# # %% Check Rb
-
-#     Rb = get_Rb(T, R, Ib, Ab, a, w, cust_params)
-
-#     print("Checking Rb star")
-
-#     print(f"SS Estimate: {Rb}")
-#     print(f"numeric estimate: {M1.results[-1, Compartments.Rb]}")
-
-#     plt.figure()
-#     plt.title("Rbstar estimate")
-#     plt.plot(M1.t_range, M1.results[:, Compartments.Rb], label="Rb")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [Rb, Rb], ":k")
-#     plt.legend()
-#     plt.show()
-
-
-# # %%
-#     ss, res = find_ss(cust_params)
-
-
-# # %% Check I and T
-
-#     plt.figure()
-#     plt.title("I")
-#     plt.plot(M1.t_range, M1.get_I(), label="infectious")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [res[1], res[1]], ":k")
-#     plt.legend()
-#     plt.show()
-
-#     plt.figure()
-#     plt.title("T")
-#     plt.plot(M1.t_range, M1.results[:, Compartments.T], label="T")
-#     plt.plot([M1.t_range[0], M1.t_range[-1]], [res[0], res[0]], ":k")
-#     plt.legend()
-#     plt.show()
