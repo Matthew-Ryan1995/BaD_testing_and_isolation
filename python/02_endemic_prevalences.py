@@ -5,7 +5,7 @@ Created on Tue Feb  4 09:56:01 2025
 
 This script creates heat maps of R0 vs behaviour spread looking at different endemic prevalences
 
-@author: rya200
+@author: Matt Ryan
 """
 from BaD import *
 import matplotlib.pyplot as plt
@@ -26,7 +26,7 @@ plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # %% flags
-save_plot_flag = True
+save_plot_flag = False
 generate_data_flag = False
 dpi = 300
 
@@ -354,14 +354,3 @@ get_ss_contour_plots(save_plot_flag=save_plot_flag,
                      y_label="Efficacy of isolation ($1-q_T$)",
                      **pars_qT)
 
-# %%
-# pars_w2 = {
-#     "v_param": "w2",
-#     "v_start": 0,
-#     "v_stop": 20,
-#     "v_step": 0.5
-# }
-# get_ss_contour_plots(save_plot_flag=save_plot_flag,
-#                      generate_data_flag=generate_data_flag,
-#                      y_label="fear_of_disease ($w2$)",
-#                      **pars_w2)
