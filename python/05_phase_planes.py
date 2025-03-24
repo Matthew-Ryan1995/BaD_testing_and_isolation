@@ -3,7 +3,7 @@
 """
 Created on Wed Feb 26 08:32:36 2025
 
-@author: rya200
+@author: Matt Ryan
 """
 from BaD import *
 import matplotlib.pyplot as plt
@@ -23,7 +23,7 @@ plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # %% flags
-save_flag = True
+save_flag = True  # NB trying to output plots during the session may result in errors from too many plots being generated
 dpi = 300
 num_days_to_run = 3*100
 
@@ -106,16 +106,6 @@ def create_phase_diagrams(params, p_range,
                   "dotted",
                   "-",
                   "dashdot"]
-
-    # if p == "w1":
-    #     params["w2"] = 0
-    #     params["w3"] = 0
-    # if p == "w2":
-    #     params["w1"] = 0
-    #     params["w3"] = 0
-    # if p == "w3":
-    #     params["w2"] = 0
-    #     params["w1"] = 0
 
     M = []
     for idx, pp in enumerate(p_range):
@@ -237,22 +227,4 @@ for p in p_list:
                                   fixed_r0=d,
                                   endemic=e,
                                   save_flag=save_flag)
-# for p in p_list:
-    # # p_range = [0.001,
-    # #            5*params[p],
-    # #            6*params[p],
-    # #            7*params[p]
-    # #            ]
-    # p_range = [0.001,
-    #            params[p]/2.5,
-    #            params[p],
-    #            2.5*params[p]
-    #            ]
-    # for d in ["disease"]:
-    #     for e in [False]:
-    #         create_phase_diagrams(params=params,
-    #                               p_range=p_range,
-    #                               p=p,
-    #                               fixed_r0=d,
-    #                               endemic=e,
-    #                               save_flag=save_flag)
+

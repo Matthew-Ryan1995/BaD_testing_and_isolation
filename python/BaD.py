@@ -15,8 +15,8 @@ from scipy.integrate import quad, solve_ivp
 from scipy.optimize import fsolve
 import numpy as np
 import matplotlib.pyplot as plt
-# import matplotlib.colors as clrs
-# import matplotlib.ticker as tkr
+import matplotlib.colors as clrs
+import matplotlib.ticker as tkr
 import json
 from enum import IntEnum
 
@@ -1107,10 +1107,6 @@ class bad(object):
             tbIb = (1-self.pA)*(omega * saw + gamma * (sigma + omega) -
                                 self.pT * (sigma + omega) * (gamma + omega)) / denom
 
-            # tbAb = (self.pA * omega * (gamma + sigma + alpha + omega) +
-            #         self.pA * sigma * gamma) / denom
-            # tbIb = ((1-self.pA) * alpha * omega + (1-self.pA) *
-            #         (1-self.pT) * (sigma*gamma + omega * (sigma + gamma + omega))) / denom
             tbT = (1-self.pA) * self.pT * (sigma + omega) / (gamma * saw)
 
             Lambda_N = self.transmission * \

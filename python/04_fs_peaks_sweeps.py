@@ -3,7 +3,7 @@
 """
 Created on Tue Feb 18 10:24:21 2025
 
-@author: rya200
+@author: Matt Ryan
 """
 from BaD import *
 import matplotlib.pyplot as plt
@@ -24,7 +24,7 @@ plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # %% flags
-save_plot_flag = True
+save_plot_flag = False
 generate_data_flag = False
 dpi = 300
 num_days_to_run = 100

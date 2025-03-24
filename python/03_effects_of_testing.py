@@ -5,7 +5,7 @@ Created on Tue Feb  4 09:56:01 2025
 
 This script creates heat maps of pt vs qt spread looking at different endemic prevalences
 
-@author: rya200
+@author: Matt Ryan
 """
 from BaD import *
 import matplotlib.pyplot as plt
@@ -26,7 +26,7 @@ plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # %% flags
-save_plot_flag = True
+save_plot_flag = False
 generate_data_flag = False
 dpi = 300
 
