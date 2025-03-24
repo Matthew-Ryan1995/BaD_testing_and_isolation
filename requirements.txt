@@ -34,4 +34,4 @@ xgboost==1.7.3
 XlsxWriter==3.2.0
 numpy==1.23.5
 matplotlib==3.6.2
-pickle==
+pickle
