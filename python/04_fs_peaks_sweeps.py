@@ -412,7 +412,7 @@ pars_r0b = {
 }
 get_peaks_fs_plots(save_plot_flag=save_plot_flag,
                    generate_data_flag=generate_data_flag,
-                   y_label="Social reproduction number ($\\mathcal{R}_0^b$)",
+                   y_label="Social reproduction number ($\\mathcal{R}_0^B$)",
                    **pars_r0b)
 # %%
 pars_pT = {
