@@ -5,6 +5,8 @@ Created on Wed Aug  9 08:12:40 2023
 
 Calculate the boundaries and regions for the steady states for a given parameter set.
 
+This script creates Figure 7 from the main manuscript.
+
 @author: Matt Ryan
 """
 # %% Packages
@@ -24,7 +26,7 @@ params = {"ytick.color": "black",
           "axes.edgecolor": "black",
           # "text.usetex": True,
           "font.family": "serif",
-          "font.size": 12}
+          "font.size": 14}
 plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
@@ -327,5 +329,3 @@ create_ss_plots(plot_params,
                 ss_categories,
                 lines=lines,
                 save=save_plot_flag)
-
-

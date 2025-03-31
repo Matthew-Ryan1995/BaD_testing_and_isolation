@@ -3,7 +3,7 @@
 """
 Created on Tue Feb  4 09:56:01 2025
 
-This script creates heat maps of pt vs qt spread looking at different endemic prevalences
+This script creates heat maps of pt vs qt spread looking at different endemic prevalences.  This corresponds to Figure 5 in the main mansucript.
 
 @author: Matt Ryan
 """
@@ -21,7 +21,7 @@ params = {"ytick.color": "black",
           "axes.edgecolor": "black",
           # "text.usetex": True,
           "font.family": "serif",
-          "font.size": 12}
+          "font.size": 14}
 plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
@@ -166,7 +166,8 @@ def get_testing_plots(save_plot_flag=True,
     yy = params[1]
 
     plt.figure()
-    plt.title(f"{title_pre}: symptomatic infection ($I+T$)")
+    plt.title(f"Symptomatic infection ($O$)")
+    # plt.title(f"{title_pre}: symptomatic infection ($I+T$)")
     im = plt.contourf(xx, yy, O, cmap=plt.cm.Oranges)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, O,
@@ -188,7 +189,7 @@ def get_testing_plots(save_plot_flag=True,
         plt.show()
 
     plt.figure()
-    plt.title(f"{title_pre}: all infection ($O+A$)")
+    plt.title(f"Total infection ($O+A$)")
     im = plt.contourf(xx, yy, O + A, cmap=plt.cm.Reds)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, O + A,
@@ -210,7 +211,7 @@ def get_testing_plots(save_plot_flag=True,
         plt.show()
 
     plt.figure()
-    plt.title(f"{title_pre}: Observed infection ($T$)")
+    plt.title(f"Observed infection ($T$)")
     im = plt.contourf(xx, yy, T, cmap=plt.cm.Greens)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, T,
@@ -232,7 +233,7 @@ def get_testing_plots(save_plot_flag=True,
         plt.show()
 
     plt.figure()
-    plt.title(f"{title_pre}: Undetected symptomatic ($I$)")
+    plt.title(f"Undetected symptomatic infection ($I$)", size=14)
     im = plt.contourf(xx, yy, O-T, cmap=plt.cm.plasma)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, O-T,
@@ -257,14 +258,14 @@ def get_testing_plots(save_plot_flag=True,
     if epidemic:
         plt.title(f"Peak: Total willing to test ($B$)")
     else:
-        plt.title(f"Steady state: Total willing to test ($B$)")
+        plt.title(f"Total willing to test ($B$)")
     im = plt.contourf(xx, yy, B, cmap=plt.cm.Blues)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, B,
                       colors="black",
                       levels=lvls,
                       alpha=0.5)
-    cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
+    cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=1))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
@@ -383,6 +384,10 @@ def get_testing_plots(save_plot_flag=True,
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
+    # hack to make figures the same saved size - this colour bar involves
+    # no percentage signs and so is larger.
+    ticks_labs = [str(round(x, 2) + 0.001)[0:4] + "   " for x in cbar_lvls]
+    cbar.set_ticklabels(ticks_labs)
     plt.ylabel("Efficacy of isolation ($1-q_T$)")
     plt.xlabel("Efficacy of test ($p_T$)")
     if save_plot_flag:

@@ -3,7 +3,9 @@
 """
 Created on Tue Feb  4 09:56:01 2025
 
-This script creates heat maps of R0 vs behaviour spread looking at different endemic prevalences
+This script creates heat maps of R0 vs behaviour spread looking at different endemic prevalences.  
+
+This cript produces Figure 6 from the main manuscript.
 
 @author: Matt Ryan
 """
@@ -21,7 +23,7 @@ params = {"ytick.color": "black",
           "axes.edgecolor": "black",
           # "text.usetex": True,
           "font.family": "serif",
-          "font.size": 12}
+          "font.size": 14}
 plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
@@ -164,7 +166,7 @@ def get_ss_contour_plots(R0d_start=0.0,
     yy = params[1]
 
     plt.figure()
-    plt.title("Total endemic infection prevalence ($O+A$)")
+    plt.title("Total infection ($O+A$)")
     im = plt.contourf(xx, yy, I, cmap=plt.cm.Reds)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, I,
@@ -174,7 +176,7 @@ def get_ss_contour_plots(R0d_start=0.0,
 
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
@@ -190,7 +192,7 @@ def get_ss_contour_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Observed endemic infection prevalence ($T$)")
+    plt.title("Observed infection ($T$)")
     im = plt.contourf(xx, yy, T, cmap=plt.cm.Greens)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, T,
@@ -200,7 +202,7 @@ def get_ss_contour_plots(R0d_start=0.0,
 
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
@@ -216,7 +218,7 @@ def get_ss_contour_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Total prevalence willing to test ($B$)")
+    plt.title("Total willing to test ($B$)")
     im = plt.contourf(xx, yy, B, cmap=plt.cm.Blues)
     ctr = plt.contour(xx, yy, B,
                       colors="black",
@@ -224,8 +226,8 @@ def get_ss_contour_plots(R0d_start=0.0,
 
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
-    cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
+             marker="x", color="black", markersize=10)
+    cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=1))
     cbar_lvls = ctr.levels[1:-1]
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
@@ -250,11 +252,15 @@ def get_ss_contour_plots(R0d_start=0.0,
 
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im)
     cbar_lvls = ctr.levels[1:-1]
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
+    # hack to make figures the same saved size - this colour bar involves
+    # no percentage signs and so is larger.
+    ticks_labs = [str(round(x, 2) + 0.001)[0:4] + "   " for x in cbar_lvls]
+    cbar.set_ticklabels(ticks_labs)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     if save_plot_flag:
@@ -266,7 +272,7 @@ def get_ss_contour_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Symptomatic prevalence ($I+T$)")
+    plt.title("Symptomatic infection ($O$)")
     im = plt.contourf(xx, yy, O, cmap=plt.cm.Oranges)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, O,
@@ -276,7 +282,7 @@ def get_ss_contour_plots(R0d_start=0.0,
 
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im,  format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
@@ -292,7 +298,7 @@ def get_ss_contour_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Undetected symptomatic prevalence ($I$)")
+    plt.title("Undetected symptomatic infection ($I$)", size=14)
     im = plt.contourf(xx, yy, O-T, cmap=plt.cm.plasma)
     lvls = im.levels[1:-1]
     ctr = plt.contour(xx, yy, O-T,
@@ -302,7 +308,7 @@ def get_ss_contour_plots(R0d_start=0.0,
 
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im,  format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
@@ -353,4 +359,3 @@ get_ss_contour_plots(save_plot_flag=save_plot_flag,
                      generate_data_flag=generate_data_flag,
                      y_label="Efficacy of isolation ($1-q_T$)",
                      **pars_qT)
-

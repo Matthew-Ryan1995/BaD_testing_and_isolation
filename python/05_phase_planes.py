@@ -3,6 +3,8 @@
 """
 Created on Wed Feb 26 08:32:36 2025
 
+This script generates Figures 4, S3-S5 from the manuscript
+
 @author: Matt Ryan
 """
 from BaD import *
@@ -18,7 +20,7 @@ params = {"ytick.color": "black",
           "axes.edgecolor": "black",
           # "text.usetex": True,
           "font.family": "serif",
-          "font.size": 12}
+          "font.size": 14}
 plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
@@ -141,9 +143,9 @@ def create_phase_diagrams(params, p_range,
         add_arrow(l,
                   color=col,
                   position=pos)
-    plt.xlabel("$S$")
+    plt.xlabel("$S$", size=20)
     plt.xlim(0, 1)
-    plt.ylabel("$T$")
+    plt.ylabel("$T$", size=20)
     plt.ylim(0, 0.12)
     plt.legend()
     if save_flag:
@@ -169,9 +171,9 @@ def create_phase_diagrams(params, p_range,
         add_arrow(l,
                   color=col,
                   position=pos)
-    plt.xlabel("$S$")
+    plt.xlabel("$S$", size=20)
     plt.xlim(0, 1)
-    plt.ylabel("$O+A$")
+    plt.ylabel("$O+A$", size=20)
     plt.ylim(0, 0.30)
     plt.legend()
     if save_flag:
@@ -197,9 +199,9 @@ def create_phase_diagrams(params, p_range,
         add_arrow(l,
                   color=col,
                   position=pos)
-    plt.xlabel("$B$")
+    plt.xlabel("$B$", size=20)
     plt.xlim(0, 1)
-    plt.ylabel("$T$")
+    plt.ylabel("$T$", size=20)
     plt.ylim(0, 0.12)
     plt.legend()
     if save_flag:
@@ -227,4 +229,3 @@ for p in p_list:
                                   fixed_r0=d,
                                   endemic=e,
                                   save_flag=save_flag)
-

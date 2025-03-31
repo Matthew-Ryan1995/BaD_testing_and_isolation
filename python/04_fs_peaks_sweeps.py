@@ -3,6 +3,8 @@
 """
 Created on Tue Feb 18 10:24:21 2025
 
+This script reporduces Figure 2, 3, and S2 from the manuscript.
+
 @author: Matt Ryan
 """
 from BaD import *
@@ -19,12 +21,12 @@ params = {"ytick.color": "black",
           "axes.edgecolor": "black",
           # "text.usetex": True,
           "font.family": "serif",
-          "font.size": 12}
+          "font.size": 14}
 plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # %% flags
-save_plot_flag = False
+save_plot_flag = Flase
 generate_data_flag = False
 dpi = 300
 num_days_to_run = 100
@@ -175,7 +177,7 @@ def get_peaks_fs_plots(R0d_start=0.0,
         y_cross = default_dict[v_param]
     x_cross = default_dict["transmission"] * R0_multiplier
 
-    x_label = "Behaviour-free reproduction number ($\\mathcal{R}_0^D$)"
+    x_label = " Behaviour-free reproduction number ($\\mathcal{R}_0^D$)"
 
     xx = params[0]
     yy = params[1]
@@ -191,13 +193,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       alpha=0.5)  # Get contour values on plot?
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_observed_finalsize.png",
                     bbox_inches="tight",
@@ -207,7 +212,7 @@ def get_peaks_fs_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Symptomatic final size ($I+T$)")
+    plt.title("Symptomatic final size ($O$)")
     lvls = np.arange(0.0, 0.91, 0.15)
     im = plt.contourf(xx, yy, O, cmap=plt.cm.Oranges, levels=lvls)
     lvls = im.levels[1:-1]
@@ -217,13 +222,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       alpha=0.5)  # Get contour values on plot?
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_symptomatic_finalsize.png",
                     bbox_inches="tight",
@@ -233,7 +241,7 @@ def get_peaks_fs_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Undetected symptomatic final size ($I$)")
+    plt.title("Undetected symptomatic final size ($I$)", size=14)
     lvls = np.arange(0.0, 0.91, 0.15)
     im = plt.contourf(xx, yy, O-T, cmap=plt.cm.plasma, levels=lvls)
     lvls = im.levels[1:-1]
@@ -243,13 +251,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       alpha=0.5)  # Get contour values on plot?
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_unobserved_symptomatic_finalsize.png",
                     bbox_inches="tight",
@@ -269,13 +280,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       alpha=0.5)  # Get contour values on plot?
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_observed_peak.png",
                     bbox_inches="tight",
@@ -285,7 +299,7 @@ def get_peaks_fs_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Symptomatic peak (I+T)")
+    plt.title("Symptomatic peak (O)")
     lvls = np.arange(0.0, 0.28, 0.04)
     im = plt.contourf(xx, yy, O_peak, cmap=plt.cm.Oranges, levels=lvls)
     lvls = im.levels[1:-1]
@@ -295,13 +309,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       alpha=0.5)  # Get contour values on plot?
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_symptomatic_peak.png",
                     bbox_inches="tight",
@@ -321,13 +338,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       alpha=0.5)  # Get contour values on plot?
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_unobserved_symptomatic_peak.png",
                     bbox_inches="tight",
@@ -337,7 +357,7 @@ def get_peaks_fs_plots(R0d_start=0.0,
         plt.show()
 
     plt.figure()
-    plt.title("Willing to test peak ($B$)")
+    # plt.title("Willing to test peak ($B$)")
     lvls = np.arange(0.0, 1.11, 0.15)
     im = plt.contourf(xx, yy, B_peak, cmap=plt.cm.Blues, levels=lvls)
     lvls = im.levels[1:-1]
@@ -347,13 +367,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       alpha=0.5)  # Get contour values on plot?
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
-    cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=2))
+             marker="x", color="black", markersize=10)
+    cbar = plt.colorbar(im, format=tkr.PercentFormatter(xmax=1, decimals=1))
     cbar_lvls = lvls
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_behav_peak.png",
                     bbox_inches="tight",
@@ -372,13 +395,16 @@ def get_peaks_fs_plots(R0d_start=0.0,
                       levels=[0, 1, 2, 3, 4, 5])
     plt.plot(r0_one, v_range, linestyle="dashed", color="grey")
     plt.plot([x_cross, x_cross], [y_cross, y_cross],
-             marker="x", color="grey", markersize=10)
+             marker="x", color="black", markersize=10)
     cbar = plt.colorbar(im)
     cbar_lvls = ctr.levels[1:-1]
     cbar.add_lines(ctr)
     cbar.set_ticks(cbar_lvls)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    if v_param == "B0":
+        plt.yticks([v_start, 0.2, 0.4, 0.6, 0.8, v_stop],
+                   [0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
     if save_plot_flag:
         plt.savefig(f"../img/epidemic/{v_param}_R0d_reproduction_number.png",
                     bbox_inches="tight",

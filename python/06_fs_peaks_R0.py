@@ -3,6 +3,8 @@
 """
 Created on Wed Mar 19 09:56:05 2025
 
+This script reproduces Figure S1 from the supplementary materials.
+
 @author: Matt Ryan
 """
 
@@ -20,12 +22,12 @@ params = {"ytick.color": "black",
           "axes.edgecolor": "black",
           # "text.usetex": True,
           "font.family": "serif",
-          "font.size": 12}
+          "font.size": 14}
 plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # %% flags
-save_plot_flag = False
+save_plot_flag = True
 dpi = 300
 num_days_to_run = 100
 
@@ -81,10 +83,12 @@ for idx, R0 in enumerate(R0_range):
 # %%
 
 plt.figure()
-plt.plot(R0_range, T, label="Observed  (T)", color="green")
-plt.plot(R0_range, O, label="Symptomatic (T + I)", color="orange")
-plt.plot(R0_range, Inc, label="True (T + I + A)", color="red")
-plt.legend()
+plt.plot(R0_range, T, label="Observed  ($T$)",
+         color="green", linestyle="dashed")
+plt.plot(R0_range, O, label="Symptomatic ($O$)",
+         color="orange", linestyle="dotted")
+plt.plot(R0_range, Inc, label="True ($O+A$)", color="red")
+# plt.legend()
 plt.xlabel("Reproduction number ($\\mathcal{R}_0$)")
 plt.ylabel("Final size")
 if save_plot_flag:
@@ -97,9 +101,11 @@ else:
 
 
 plt.figure()
-plt.plot(R0_range, T_peak, label="Observed  (T)", color="green")
-plt.plot(R0_range, O_peak, label="Symptomatic (T + I)", color="orange")
-plt.plot(R0_range, Inc_peak, label="True (T + I + A)", color="red")
+plt.plot(R0_range, T_peak, label="Observed  ($T$)",
+         color="green", linestyle="dashed")
+plt.plot(R0_range, O_peak, label="Symptomatic ($O$)",
+         color="orange", linestyle="dotted")
+plt.plot(R0_range, Inc_peak, label="True ($O+A$)", color="red")
 plt.legend()
 plt.xlabel("Reproduction number ($\\mathcal{R}_0$)")
 plt.ylabel("Peak infection")
