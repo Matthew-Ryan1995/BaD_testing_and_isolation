@@ -462,3 +462,40 @@ get_peaks_fs_plots(save_plot_flag=save_plot_flag,
                    generate_data_flag=generate_data_flag,
                    y_label="Efficacy of isolation ($1-q_T$)",
                    **pars_qT)
+
+# %%
+
+# with open(f"../outputs/epidemic/B0_R0d.pkl", "rb") as f:
+#     dat = pkl.load(f)
+# O = dat["O"]
+# O_peak = dat["O_peak"]
+# B_peak = dat["B_peak"]
+# T = dat["T"]
+# T_peak = dat["T_peak"]
+# R0 = dat["R0"]
+# r0_one = dat["r0_one"]
+# params = dat["params"]
+# default_dict = dat["default_dict"]
+
+# R0_multiplier = default_dict["infectious_period"] * \
+#     (default_dict["pA"]*default_dict["qA"] + 1 - default_dict["pA"])
+
+# B0_thresh = 0.6
+
+
+# xx = params[0]
+# yy = params[1]
+
+# xw, yw = np.where(yy <= B0_thresh)
+
+# R0_sub = R0[np.ix_(np.unique(xw), np.unique(yw))]
+# xx_sub = xx[np.ix_(np.unique(xw), np.unique(yw))]
+# yy_sub = yy[np.ix_(np.unique(xw), np.unique(yw))]
+
+# xww, yww = np.where(R0_sub <= 1)
+
+
+# RR0_sub = R0_sub[np.ix_(np.unique(xww), np.unique(yww))]
+# xxx = xx_sub[np.ix_(np.unique(xww), np.unique(yww))]
+
+# print(f"Threshold B0 < {B0_thresh} works for R0D < {xxx.max()}")
