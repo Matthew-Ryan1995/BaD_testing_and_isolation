@@ -26,7 +26,7 @@ plt.rcParams.update(params)
 plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # %% flags
-save_plot_flag = Flase
+save_plot_flag = False
 generate_data_flag = False
 dpi = 300
 num_days_to_run = 100
